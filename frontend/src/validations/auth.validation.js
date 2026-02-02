@@ -1,12 +1,11 @@
-import { emailSchema, passwordSchema } from "../utils/validationTypes.js";
+import { emailSchema, passwordSchema } from "../utils/validationTypes";
 
-export const validateUserSchema = async (req, res, next) => {
-  const { username, password } = req.body;
+export const validateUserSchema = ({ username, password }) => {
   let emailErrors = [];
-  let passwordErrors = [];
+    let passwordErrors = [];
+    
 
   const emailResult = emailSchema.safeParse(username);
-
   if (!emailResult.success) {
     const parsedErrors = JSON.parse(emailResult.error);
 
@@ -16,7 +15,6 @@ export const validateUserSchema = async (req, res, next) => {
   }
 
   const passwordResult = passwordSchema.safeParse(password);
-
   if (!passwordResult.success) {
     const parsedErrors = JSON.parse(passwordResult.error);
 
@@ -26,15 +24,14 @@ export const validateUserSchema = async (req, res, next) => {
   }
 
   if (emailErrors.length || passwordErrors.length) {
-    return next({
-      status: 400,
-      name: "validationError",
+    return {
+      hasError: true,
       errors: {
-        emailErrors,
-        passwordErrors,
+        username: emailErrors,
+        password: passwordErrors,
       },
-    });
+    };
   }
 
-  next();
+  return { hasError: false, errors: {} };
 };

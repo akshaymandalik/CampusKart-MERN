@@ -14,6 +14,14 @@ connectDB();
 app.use(cors());
 app.use("/api/user", authRoutes);
 
+app.use((err, req, res, next) => {
+  res.status(err.status || 500).json({
+    status: err.status || 500,
+    name: err.name || "ServerError",
+    errors: err.errors || ["Something went wrong"],
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Server is Running on Port ${PORT}`);
 });

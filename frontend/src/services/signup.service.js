@@ -4,15 +4,17 @@ export const signup = async (formData) => {
     const response = await axios.post("http://localhost:5000/api/user/signup", {
       username: formData.username,
       password: formData.password,
-    });      
+    });
     return response.data;
   } catch (error) {
 
+    console.log(error.response);
       return {
-          status:500,
-          error: true,
-          message:
-           error.response?.data?.message ||"Something went wrong, Please try again"
-        }
+        status: error.response.status,
+        error: true,
+        message:
+          error.response?.data?.message ||
+          "Something went wrong, Please try again",
+      };
   }
 };

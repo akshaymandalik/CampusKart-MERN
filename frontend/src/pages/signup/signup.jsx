@@ -10,32 +10,46 @@ import {
 } from "react-bootstrap";
 import { signup } from "../../services/signup.service";
 import { ToastMessage } from "../../components/toast";
+import { validateUserSchema } from "../../validations/auth.validation";
 export const Signup = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
     confirmPassword: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [error, setError] = useState({
+    validationErrors: {},
+    passMatchError: "",
+  });
+  console.log(error, "err");
+
   const [showPassword, setShowPassword] = useState(false);
   const [globalError, setGlobalError] = useState("");
   const [globalSuccess, setGlobalSuccess] = useState("");
   const [statusCode, setStatusCode] = useState(200);
   function handleChange(e) {
-    setFormData({
+    const { name, value } = e.target;
+
+    const updatedFormData = {
       ...formData,
-      [e.target.name]: e.target.value,
-    });
+      [name]: value,
+    };
+
+    setFormData(updatedFormData);
+
+    const validationResult = validateUserSchema(updatedFormData);
+    setError({ ...error, validationErrors: validationResult.errors });
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-    setError("");
-    setSuccess("");
+    setError({
+      validationErrors: {},
+      passMatchError: "",
+    });
     setGlobalError("");
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match!");
+      setError({ ...error, passMatchError: "Passwords do not match!" });
       return;
     }
     const response = await signup(formData);
@@ -46,6 +60,7 @@ export const Signup = () => {
       return;
     }
     setGlobalSuccess(response.message);
+    setFormData({ username: "", password: "", confirmPassword: "" });
     setStatusCode(response.status);
   }
 
@@ -76,16 +91,6 @@ export const Signup = () => {
             <Card className="shadow-sm p-2">
               <Card.Body>
                 <h3 className="text-center mb-4">Create Account</h3>
-                {error && (
-                  <Alert className="p-2" variant="danger">
-                    {error}
-                  </Alert>
-                )}
-                {success && (
-                  <Alert className="p-2" variant="success">
-                    {success}
-                  </Alert>
-                )}
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label className="fs-6 text-dark text-opacity-50">
@@ -99,6 +104,11 @@ export const Signup = () => {
                       onChange={handleChange}
                       required
                     />
+                    {error.validationErrors.username?.length > 0 && (
+                      <small className="text-center text-danger m-1">
+                        {error.validationErrors.username[0]}
+                      </small>
+                    )}
                   </Form.Group>
                   <Form.Group className="mb-3">
                     <Form.Label className="fs-6 text-dark text-opacity-50">
@@ -117,6 +127,11 @@ export const Signup = () => {
                       onChange={handleChange}
                       required
                     />
+                    {error.validationErrors.password?.map((err, index) => (
+                      <small key={index} className="text-danger m-1 d-block">
+                        {err}
+                      </small>
+                    ))}
                   </Form.Group>
                   <Form.Group className="mb-3">
                     <Form.Label className="fs-6 text-dark text-opacity-50">
@@ -130,6 +145,11 @@ export const Signup = () => {
                       onChange={handleChange}
                       required
                     />
+                    {error.passMatchError && (
+                      <small className="text-center text-danger m-1">
+                        {error.passMatchError}
+                      </small>
+                    )}
                   </Form.Group>
                   <Button type="submit" variant="primary">
                     Sign Up
