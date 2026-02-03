@@ -8,10 +8,12 @@ import {
   Button,
   Alert,
 } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import Signin from "./signin";
 import { signup } from "../../services/signup.service";
 import { ToastMessage } from "../../components/toast";
 import { validateUserSchema } from "../../validations/auth.validation";
-export const Signup = () => {
+const Signup = () => {
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -21,12 +23,14 @@ export const Signup = () => {
     validationErrors: {},
     passMatchError: "",
   });
-  console.log(error, "err");
 
   const [showPassword, setShowPassword] = useState(false);
   const [globalError, setGlobalError] = useState("");
   const [globalSuccess, setGlobalSuccess] = useState("");
   const [statusCode, setStatusCode] = useState(200);
+
+  const navigate = useNavigate();
+
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -62,6 +66,7 @@ export const Signup = () => {
     setGlobalSuccess(response.message);
     setFormData({ username: "", password: "", confirmPassword: "" });
     setStatusCode(response.status);
+    navigate("/signin");
   }
 
   return (
@@ -155,9 +160,10 @@ export const Signup = () => {
                     Sign Up
                   </Button>
                 </Form>
+
                 <div className="text-center mt-3">
                   <small>
-                    Already have an account? <a href="/login">Login</a>
+                    Already have an account? <Link to="/signin">Signin</Link>
                   </small>
                 </div>
               </Card.Body>
@@ -168,3 +174,5 @@ export const Signup = () => {
     </>
   );
 };
+
+export default Signup;
