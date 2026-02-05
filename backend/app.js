@@ -12,7 +12,8 @@ app.use(express.json());
 
 connectDB();
 app.use(cors());
-app.use("/api/user", authRoutes);
+app.use("/api/auth", authRoutes);
+
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({

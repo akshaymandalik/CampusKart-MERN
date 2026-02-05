@@ -11,10 +11,7 @@ export const encyptPass = async (inputPassword) => {
 
 export const verifyPass = async (dbPass, inputPassword) => {
     
-    const isMatch = await argon2.verify(
-        dbPass,
-        inputPassword,
-    )
+    const isMatch = await argon2.verify(dbPass, inputPassword);    
     return isMatch;
 }
 

@@ -2,8 +2,7 @@ import { Toast, ToastContainer } from "react-bootstrap";
 export const ToastMessage = ({ message, statusCode, onClose }) => {
   let variant;
   if (statusCode == 200) variant = "success";
-  else if (statusCode == 409) variant = "warning";
-  else if (statusCode == 500) variant = "danger";
+  else variant = "danger";
 
   return (
     <>
@@ -14,7 +13,7 @@ export const ToastMessage = ({ message, statusCode, onClose }) => {
               className={`fa-solid ${
                 variant === "success"
                   ? "fa-circle-check"
-                  : variant=="warning"?"fa-circle-exclamation":"fa-circle-x"
+                  : "fa-circle-exclamation"
               } me-2`}
             ></i>
             {message}

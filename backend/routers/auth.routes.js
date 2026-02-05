@@ -5,6 +5,6 @@ import { validateUserSchema } from "../middlewares/auth.middleware.js";
 const router = express.Router();
 
 router.post("/signup", validateUserSchema, signup);
-router.post("/signin", validateUserSchema, signin);
+router.post("/signin", signin);
 
 export default router;
