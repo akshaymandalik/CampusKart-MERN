@@ -10,13 +10,15 @@ import {
   Alert,
 } from "react-bootstrap";
 import { Routes, Route, Outlet } from "react-router-dom";
+import { Profile } from "./pages/profile";
 function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<Signup />} />
         <Route path="/signin" element={<Signin />} />
-      </Routes>{" "}
+        <Route path="/profile" element={<Profile />} />
+      </Routes>
     </>
   );
 }
