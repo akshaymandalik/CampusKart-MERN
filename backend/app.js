@@ -14,6 +14,11 @@ connectDB();
 app.use(cors());
 app.use("/api/auth", authRoutes);
 
+app.get("/health", (req, res) => {
+  res.json({
+    mes: "Server is up and Running",
+  });
+});
 
 app.use((err, req, res, next) => {
   res.status(err.status || 500).json({

@@ -35,7 +35,31 @@ export const signin = async (formData) => {
   } catch (error) {
     return {
       success: false,
-      message:
+      response:
+        error.response?.data?.message ||
+        error.response?.data?.error[0] ||
+        "Something went wrong",
+      status: error.response?.status,
+    };
+  }
+};
+
+export const isUserExist = async (username) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:5000/api/auth/isUserExist",
+      {
+        username,
+      },
+    );
+    return {
+      success: true,
+      response: response.data,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      response:
         error.response?.data?.message ||
         error.response?.data?.error[0] ||
         "Something went wrong",

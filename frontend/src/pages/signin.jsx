@@ -42,6 +42,8 @@ const Signin = () => {
     e.preventDefault();
     setGlobalError("");
     const result = await signin(formData);
+    console.log(result, "result");
+    
     if (!result.success) {
       setGlobalError(result.response);
       setStatusCode(result.status);
@@ -102,7 +104,7 @@ const Signin = () => {
                       Email
                     </Form.Label>
                     <Form.Control
-                      type="text"
+                      type="email"
                       name="username"
                       placeholder="Enter Username"
                       value={formData.username}
