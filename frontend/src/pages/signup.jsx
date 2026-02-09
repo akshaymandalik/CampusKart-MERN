@@ -61,12 +61,11 @@ const Signup = () => {
     }
     const result = await signup(formData);
     
-    if (!result.success) {      
+    if (!result.success) {
       setGlobalError(result.response);
       setStatusCode(result.status);
       return;
     }
-    console.log(result, "result");
     
     setGlobalSuccess(result.response.success[0]);
     setFormData({ username: "", password: "", confirmPassword: "" });

@@ -55,7 +55,7 @@ const Signin = () => {
     setLoader(true);
     setTimeout(() => {
       setLoader(false);
-      navigate("/home");
+      navigate("/profile");
     }, 3000);
    
   }

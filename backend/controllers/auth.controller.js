@@ -6,8 +6,7 @@ dotenv.config({ path: "../config/.env" });
 
 export const signup = async (req, res, next) => {
   try {
-    const username = req.body.username;
-    const password = req.body.password;
+    const { username, password } = req.body;
 
     const existingUser = await User.findOne({ username });
 
@@ -43,8 +42,7 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   try {
-    const username = req.body.username;
-    const password = req.body.password;
+    const { username, password } = req.body;
 
     const existingUser = await User.findOne({ username });
 
@@ -90,7 +88,7 @@ export const signin = async (req, res, next) => {
 
 export const isUserExist = async (req, res, next) => {
   try {
-    const username = req.body.username;
+    const { username } = req.body;
 
     const existingUser = await User.findOne({ username });
 
@@ -105,6 +103,59 @@ export const isUserExist = async (req, res, next) => {
       status: 200,
       name: "authorizationSuccess",
       success: ["User Exists!"],
+    });
+  } catch (error) {
+    return next({
+      status: 500,
+      name: "Internal Server Error",
+      error: ["Something Went Wrong!"],
+    });
+  }
+};
+
+export const verifyOtp = (req, res, next) => {
+  try {
+    const { otp } = req.body;
+
+    // Add Otp Generation code here
+    const systemGeneratedOtp = process.env.OTP;
+    if (systemGeneratedOtp !== otp) {
+      return res.status(400).json({
+        status: 400,
+        name: "verificationError",
+        error: ["Invalid Otp!"],
+      });
+    }
+    res.status(200).json({
+      status: 200,
+      name: "verificationSuccess",
+      success: ["Verified!"],
+    });
+  } catch (error) {
+    return next({
+      status: 500,
+      name: "Internal Server Error",
+      error: ["Something Went Wrong!"],
+    });
+  }
+};
+
+export const updateUserPass = async (req, res, next) => {
+  try {
+    const { username, password } = req.body;
+
+    const encryptedPass = await encyptPass(password);
+    await User.updateOne(
+      {
+        username: username,
+      },
+      { $set: { password: encryptedPass } },
+    );
+
+    res.status(200).json({
+      status: 200,
+      name: "authorizatioSuccess",
+      success: ["Password has been updated!"],
     });
   } catch (error) {
     return next({
