@@ -9,6 +9,7 @@ import {
   Alert,
   Modal,
 } from "react-bootstrap";
+import bImage from "../assets/background.jpg";
 import loadingGif from "../assets/loading.gif";
 import { ToastMessage } from "../components/toast";
 import { Link, useNavigate } from "react-router-dom";
@@ -106,7 +107,7 @@ const Forgotpass = () => {
           <img src={loadingGif} alt="" />
         </Modal>
       }
-      <Container fluid className="min-vh-100 d-flex align-items-center bg-dark">
+      <Container fluid className="min-vh-100 d-flex">
         {globalError && (
           <ToastMessage
             message={globalError}
@@ -121,12 +122,12 @@ const Forgotpass = () => {
             onClose={() => setGlobalSuccess("")}
           />
         )}
-        <Row className="w-100 justify-content-center">
-          <Col lg={6} className="d-flex align-items-center">
-            <h1 className="text-center m-5 text-light display-2">CampusKart</h1>
+        <Row className="w-100 justify-content-center align-items-center">
+          <Col lg={6}>
+            <img src={bImage} alt="" width={550} height={500} />
           </Col>
           <Col md={5} lg={4}>
-            <Card className="shadow-sm p-2">
+            <Card className="shadow p-2">
               <Card.Body>
                 <h3 className="text-center mb-4">Forgot Password</h3>
                 <Form onSubmit={handleSubmit}>

@@ -10,14 +10,19 @@ import {
   Modal,
   Spinner,
 } from "react-bootstrap";
+import bImage from "../assets/background.jpg";
 import loadingGif from "../assets/loading.gif";
 import { Link, useNavigate } from "react-router-dom";
 import { signup } from "../services/auth.service";
 import { ToastMessage } from "../components/toast";
 import { validateUserSchema } from "../validations/auth.validation";
+import { useAuth } from "../context/useAuthContext";
 const Signup = () => {
+
+    const { username } = useAuth();
+  
   const [formData, setFormData] = useState({
-    username: "",
+    username: username,
     password: "",
     confirmPassword: "",
   });
@@ -92,7 +97,10 @@ const Signup = () => {
           <img src={loadingGif} alt="" />
         </Modal>
       }
-      <Container fluid className="min-vh-100 d-flex align-items-center bg-dark">
+      <Container
+        fluid
+        className="min-vh-100 d-flex align-items-center overflow-hidden "
+      >
         {globalError && (
           <ToastMessage
             message={globalError}
@@ -109,14 +117,14 @@ const Signup = () => {
           />
         )}
 
-        <Row className="w-100 justify-content-center">
-          <Col lg={6} className="d-flex align-items-center">
-            <h1 className="text-center m-5 text-light display-1">CampusKart</h1>
+        <Row className="w-100 justify-content-center align-content-center">
+          <Col lg={6}>
+            <img src={bImage} alt="" width={550} height={500} />
           </Col>
           <Col md={5} lg={4}>
-            <Card className="shadow-sm p-2">
+            <Card className="shadow p-2 ">
               <Card.Body>
-                <h3 className="text-center mb-4">Create Account</h3>
+                <h3 className="mb-4">Create Account</h3>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label className="fs-6 text-dark text-opacity-50">
@@ -179,7 +187,7 @@ const Signup = () => {
                   </Form.Group>
                   <Button
                     type="submit"
-                    variant="primary"
+                    variant="success"
                     className="w-100"
                     disabled={error.validationErrors.password?.length > 0}
                   >

@@ -9,6 +9,7 @@ import {
   Alert,
   Modal,
 } from "react-bootstrap";
+import bImage from "../assets/background.jpg";
 import {ToastMessage} from "../components/toast"
 import loadingGif from "../assets/loading.gif";
 import { Link,useNavigate } from "react-router-dom";
@@ -75,7 +76,10 @@ const Signin = () => {
           <img src={loadingGif} alt="" />
         </Modal>
       }
-      <Container fluid className="min-vh-100 d-flex align-items-center bg-dark">
+      <Container
+        fluid
+        className="min-vh-100 d-flex align-items-center overflow-hidden"
+      >
         {globalError && (
           <ToastMessage
             message={globalError}
@@ -90,14 +94,14 @@ const Signin = () => {
             onClose={() => setGlobalSuccess("")}
           />
         )}
-        <Row className="w-100 justify-content-center">
-          <Col lg={6} className="d-flex align-items-center">
-            <h1 className="text-center m-5 text-light display-1">CampusKart</h1>
+        <Row className="w-100 justify-content-center align-items-center">
+          <Col lg={6}>
+            <img src={bImage} alt="" width={550} height={500} />
           </Col>
           <Col md={5} lg={4}>
-            <Card className="shadow-sm p-2">
+            <Card className="shadow p-2">
               <Card.Body>
-                <h3 className="text-center mb-4">Sign In</h3>
+                <h3 className=" mb-4">Sign In</h3>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
                     <Form.Label className="fs-6 text-dark text-opacity-50">
@@ -130,7 +134,7 @@ const Signin = () => {
                       required
                     />
                   </Form.Group>
-                  <Button type="submit" variant="primary" className="w-100">
+                  <Button type="submit" variant="success" className="w-100">
                     Sign In
                   </Button>
                   <div className="text-center mt-3">
