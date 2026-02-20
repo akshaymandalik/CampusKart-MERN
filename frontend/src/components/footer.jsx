@@ -7,7 +7,7 @@ export const Footer = () => {
         <hr className="border-light opacity-25" />
         <Row>
           <Col className="text-center">
-            © {new Date().getFullYear()} CampusKart. All rights reserved.
+            © {new Date().getFullYear()} YourFirstChoice. All rights reserved.
           </Col>
         </Row>
       </Container>
